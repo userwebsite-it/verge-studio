@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { FAQAccordion } from "./faq-accordion";
 import { FadeInSection } from "./fade-in-section";
 import { Navbar } from "./navbar";
@@ -249,6 +252,34 @@ const ctaClassName =
   "inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a78bfa] px-7 py-3.5 text-sm font-medium text-white transition hover:opacity-90";
 
 export default function Home() {
+  const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormStatus("submitting");
+
+    const formData = new FormData(e.currentTarget);
+    
+    try {
+      const response = await fetch("https://formspree.io/f/mkoljdjo", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (response.ok) {
+        setFormStatus("success");
+        e.currentTarget.reset();
+      } else {
+        setFormStatus("error");
+      }
+    } catch {
+      setFormStatus("error");
+    }
+  };
+
   return (
     <div className="min-h-screen scroll-smooth bg-[#080810] font-sans text-[#fafaf9]">
       <Navbar />
@@ -529,7 +560,19 @@ export default function Home() {
             </FadeInSection>
 
             <FadeInSection delay={120}>
-              <form className="space-y-8">
+              <form onSubmit={handleSubmit} className="space-y-8">
+                {formStatus === "success" && (
+                  <div className="rounded-lg border border-green-500/30 bg-green-500/10 p-4 text-center text-sm text-green-300">
+                    Thanks! I'll be in touch within 24 hours.
+                  </div>
+                )}
+                
+                {formStatus === "error" && (
+                  <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-4 text-center text-sm text-red-300">
+                    Something went wrong, please email me directly at <a href="mailto:eagle2regal@gmail.com" className="underline">eagle2regal@gmail.com</a>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
                   <div>
                     <label
@@ -631,22 +674,25 @@ export default function Home() {
 
                 <button
                   type="submit"
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a78bfa] py-4 text-sm font-medium text-white transition hover:opacity-90"
+                  disabled={formStatus === "submitting"}
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a78bfa] py-4 text-sm font-medium text-white transition hover:opacity-90 disabled:opacity-50"
                 >
-                  Get Your Free Site Audit
-                  <svg
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
-                  </svg>
+                  {formStatus === "submitting" ? "Sending..." : "Get Your Free Site Audit"}
+                  {formStatus !== "submitting" && (
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      />
+                    </svg>
+                  )}
                 </button>
               </form>
             </FadeInSection>
