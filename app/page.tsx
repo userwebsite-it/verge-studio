@@ -466,61 +466,20 @@ export default function Home() {
         {/* Pricing */}
         <section id="pricing" className="px-6 py-32 lg:px-10">
           <div className="mx-auto max-w-7xl">
-            <FadeInSection className="mb-16">
-              <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
-                Pricing
-              </p>
-              <h2 className="mt-4 text-4xl font-black tracking-tight text-[#fafaf9] lg:text-5xl">
-                Simple, transparent pricing.
+            <FadeInSection className="text-center">
+              <h2 className="text-4xl font-black tracking-tight text-[#fafaf9] lg:text-5xl">
+                Currently offering free websites to local businesses.
               </h2>
+              <p className="mt-6 max-w-2xl mx-auto text-base leading-relaxed text-zinc-400">
+                I'm a Northern Virginia student building my portfolio. In exchange for a free website, I ask only for an honest testimonial and permission to show your site as an example of my work.
+              </p>
+              <a
+                href="#contact"
+                className="mt-10 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a78bfa] px-8 py-4 text-sm font-medium text-white transition hover:opacity-90"
+              >
+                Claim Your Free Website
+              </a>
             </FadeInSection>
-
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              {pricingPlans.map((plan, index) => (
-                <FadeInSection key={plan.name} delay={index * 80}>
-                  <div
-                    className={`relative h-full rounded-2xl border bg-white/[0.03] p-8 backdrop-blur-sm ${
-                      plan.popular
-                        ? "border-violet-500/40"
-                        : "border-white/10"
-                    }`}
-                  >
-                    {plan.popular && (
-                      <span className="absolute -top-3 left-8 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a78bfa] px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-white">
-                        Most Popular
-                      </span>
-                    )}
-                    <h3 className="text-lg font-semibold text-[#fafaf9]">
-                      {plan.name}
-                    </h3>
-                    <p className="mt-2 text-2xl font-black text-[#fafaf9]">
-                      {plan.price}
-                    </p>
-                    <ul className="mt-8 space-y-3">
-                      {plan.features.map((feature) => (
-                        <li
-                          key={feature}
-                          className="flex items-start gap-3 text-sm text-zinc-400"
-                        >
-                          <CheckIcon />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                    <a
-                      href="#contact"
-                      className={`mt-8 inline-flex w-full items-center justify-center rounded-full py-3 text-sm font-medium transition hover:opacity-90 ${
-                        plan.popular
-                          ? "bg-gradient-to-r from-[#7c3aed] to-[#a78bfa] text-white"
-                          : "border border-white/10 text-zinc-400 hover:border-white/20 hover:text-[#fafaf9]"
-                      }`}
-                    >
-                      Get Your Free Site Audit
-                    </a>
-                  </div>
-                </FadeInSection>
-              ))}
-            </div>
           </div>
         </section>
 
